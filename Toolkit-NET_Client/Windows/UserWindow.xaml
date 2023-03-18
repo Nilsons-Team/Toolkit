@@ -1,0 +1,110 @@
+﻿<Window x:Class="Toolkit_NET_Client.Windows.UserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Toolkit_NET_Client.Windows"
+        mc:Ignorable="d"
+        Title="Toolkit - Профиль" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="#f5f5f5">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding ElementName=UsernameTextBlock, Path=Height}" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя часть окна -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock Name="UsernameTextBlock" Text="%ПОЛЬЗОВАТЕЛЬ%" Style="{StaticResource ChoosenHeaderTextBlock}" />
+            <TextBlock Name="LibraryTextBlock" Text="БИБЛИОТЕКА" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="LibraryTextBlock_MouseLeftButtonDown" />
+            <TextBlock Name="StoreTextBlock" Text="МАГАЗИН" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="StoreTextBlock_MouseLeftButtonDown" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- Отображаемое имя -->
+            <TextBlock Name="UsernameHeaderTextBlock" Text="%Пользователь%" FontSize="24" TextAlignment="Center" Style="{StaticResource AccountHeaderTextBlock}" />
+
+            <StackPanel Orientation="Horizontal">
+                <!-- Левая часть -->
+                <StackPanel>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <!-- Логин -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Логин: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" />
+                        <TextBox   Grid.Row="0" Grid.Column="1" Name="LoginTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" IsEnabled="False" />
+
+                        <!-- Отображаемое имя -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Отображаемое имя: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" />
+                        <TextBox   Grid.Row="1" Grid.Column="1" Name="UsernameTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" IsEnabled="False" />
+
+                        <!-- Эл. почта -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Эл. почта: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" />
+                        <TextBox   Grid.Row="2" Grid.Column="1" Name="EmailTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" IsEnabled="False" />
+
+                        <!-- Номер телефона -->
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Номер телефона: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" />
+                        <TextBox   Grid.Row="3" Grid.Column="1" Name="PhoneTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" IsEnabled="False" />
+
+                        <!-- Страна -->
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="Страна: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" VerticalAlignment="Center" />
+                        <ComboBox  Grid.Row="4" Grid.Column="1" Name="CountryComboBox" Margin="5" Width="280" HorizontalAlignment="Left" Style="{StaticResource BlueComboBox}" IsEnabled="False" />
+
+                        <!-- Пароль / Изменить данные -->
+                        <TextBlock   Grid.Row="5" Grid.Column="0" Name="PasswordTextBlock" Text="Пароль: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" Visibility="Collapsed" />
+                        <PasswordBox Grid.Row="5" Grid.Column="1" Name="PasswordBox" Margin="5" Style="{StaticResource BluePasswordBox}" Visibility="Collapsed" />
+                        <Button    Grid.Row="5" Grid.Column="1" Name="ChangeDetailsButton" Content="Изменить данные" Margin="5" Style="{StaticResource BlueButton}" Click="ChangeDetailsButton_Click" />
+
+                        <!-- Новый Пароль / Изменить пароль -->
+                        <TextBlock   Grid.Row="6" Grid.Column="0" Name="NewPasswordTextBlock" Text="Новый пароль: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" Visibility="Collapsed" />
+                        <PasswordBox Grid.Row="6" Grid.Column="1" Name="NewPasswordBox" Margin="5" Style="{StaticResource BluePasswordBox}" Visibility="Collapsed" />
+                        <Button    Grid.Row="6" Grid.Column="1" Name="ChangePasswordButton" Content="Изменить пароль" Margin="5" Style="{StaticResource BlueButton}" Click="ChangePasswordButton_Click" />
+
+                        <!-- Подтвердить изменения -->
+                        <Button    Grid.Row="7" Grid.Column="1" Name="ConfirmButton" Content="Подтвердить" Margin="5" Style="{StaticResource BlueButton}" Click="ConfirmButton_Click" Visibility="Collapsed" />
+                        <TextBlock Grid.Row="8" Grid.Column="1" Name="ConfirmStatusTextBlock" TextAlignment="Center" Width="280" TextWrapping="Wrap" Style="{StaticResource DefaultTextBlock}" Visibility="Collapsed" />
+                    </Grid>
+
+                </StackPanel>
+
+                <!-- Правая часть -->
+                <StackPanel>
+                    <!-- Дата регистрации -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Дата регистрации: " Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        <TextBlock Name="RegistrationDatetimeTextBlock" Margin="5" Style="{StaticResource BlueTextBlock}" />
+                    </StackPanel>
+                    
+                    <!-- Баланс -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Баланс: " Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        <TextBlock Name="WalletTextBlock" Text="0 р." Margin="5" Style="{StaticResource BlueTextBlock}" />
+                    </StackPanel>
+                    
+                    <!-- Пополнение -->
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Сумма пополнения: " Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        <TextBox Name="AddFundsTextBox" Width="60" Margin="5" Style="{StaticResource BlueTextBox}" />
+                        <TextBlock Text="р." Margin="5" Style="{StaticResource BlueTextBlock}" />
+                    </StackPanel>
+                    <Button Name="AddFundsButton" Content="Пополнить" Margin="5" Style="{StaticResource BlueButton}" Click="AddFundsButton_Click" />
+                    <TextBlock Name="AddFundsStatusTextBlock" TextAlignment="Center" Width="280" TextWrapping="Wrap" Style="{StaticResource DefaultTextBlock}" Visibility="Collapsed" />
+                </StackPanel>
+            </StackPanel>
+
+        </StackPanel>
+    </Grid>
+</Window>

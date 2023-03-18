@@ -1,0 +1,131 @@
+﻿<Window x:Class="Toolkit_NET_Client.Windows.StoreWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="Toolkit - Поиск" Height="550" Width="800" WindowStartupLocation="CenterScreen" Background="#f5f5f5">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding ElementName=UsernameTextBlock, Path=Height}" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Верхняя часть окна -->
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <TextBlock Name="UsernameTextBlock" Text="%ПОЛЬЗОВАТЕЛЬ%" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="UsernameTextBlock_MouseLeftButtonDown" />
+            <TextBlock Name="LibraryTextBlock" Text="БИБЛИОТЕКА" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="LibraryTextBlock_MouseLeftButtonDown" />
+            <TextBlock Name="StoreTextBlock" Text="МАГАЗИН" Style="{StaticResource ChoosenHeaderTextBlock}" />
+        </StackPanel>
+
+        <!-- Нижняя часть окна -->
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" MinWidth="200" />
+                <ColumnDefinition Width="6*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- Левая часть -->
+            <ScrollViewer Grid.Column="0" Background="#fafafa" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="10">
+
+                    <!-- Название -->
+                    <TextBlock Text="Поиск по названию:" />
+                    <TextBox Name="NameSearchTextBox" />
+
+                    <!-- Ценовой диапазон -->
+                    <TextBlock Text="Ценовой диапазон:" />
+                    <StackPanel Name="PriceRangeStackPanel" Margin="5">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Нижняя граница цены -->
+                            <StackPanel Grid.Column="0" Name="LowerPriceRangeStackPanel" Margin="5,0,5,0">
+                                <TextBlock Text="От:" />
+                                <TextBox />
+                            </StackPanel>
+
+                            <!-- Верхняя граница цены -->
+                            <StackPanel Grid.Column="1" Name="UpperPriceRangeStackPanel" Margin="5,0,5,0">
+                                <TextBlock Text="До:" />
+                                <TextBox />
+                            </StackPanel>
+                        </Grid>
+                        <CheckBox Name="HasDiscountCheckbox" Content="Действует скидка" Margin="0,5,0,0" Checked="HasDiscountCheckbox_Checked" />
+                    </StackPanel>
+
+                    <!-- Методы приобретения -->
+                    <TextBlock Text="Методы приобретения:" />
+                    <StackPanel Name="AppPurchaseTypesStackPanel" Margin="5">
+                        <CheckBox Name="AppPurchaseTypeCheckbox1" Content="Единоразовая покупка" Checked="AppPurchaseTypeCheckbox1_Checked" />
+                        <CheckBox Name="AppPurchaseTypeCheckbox2" Content="Временная подписка" />
+                    </StackPanel>
+
+                    <!-- Тип приложения -->
+                    <TextBlock Text="Тип приложения:" />
+                    <StackPanel Name="AppTypesStackPanel" Margin="5">
+                        <CheckBox Name="AppTypeCheckbox1" Content="Программное обеспечение" />
+                        <CheckBox Name="AppTypeCheckbox2" Content="Демо" />
+                        <CheckBox Name="AppTypeCheckbox3" Content="Дополнение" />
+                    </StackPanel>
+
+                    <!-- Категории -->
+                    <TextBlock Text="Категории:" />
+                    <StackPanel Name="CategoriesStackPanel" Margin="5">
+                        <CheckBox Name="CategoryCheckbox1" Content="Категория №1" />
+                        <CheckBox Name="CategoryCheckbox2" Content="Категория №2" />
+                        <CheckBox Name="CategoryCheckbox3" Content="Категория №3" />
+                        <CheckBox Name="CategoryCheckbox4" Content="Категория №4" />
+                        <CheckBox Name="CategoryCheckbox5" Content="Категория №5" />
+                    </StackPanel>
+                    <TextBox Name="CategorySearchTextBox" />
+
+                    <!-- Метки -->
+                    <TextBlock Text="Метки:" />
+                    <StackPanel Name="TagsStackPanel" Margin="5">
+                        <CheckBox Name="TagCheckbox1" Content="Метка №1" />
+                        <CheckBox Name="TagCheckbox2" Content="Метка №2" />
+                        <CheckBox Name="TagCheckbox3" Content="Метка №3" />
+                        <CheckBox Name="TagCheckbox4" Content="Метка №4" />
+                        <CheckBox Name="TagCheckbox5" Content="Метка №5" />
+                    </StackPanel>
+                    <TextBox Name="TagSearchTextBox" />
+
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Правая часть -->
+            <StackPanel Grid.Column="1">
+
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Поиск: " />
+                    <TextBox Name="NameSearchTextBox2" Width="200" />
+                    <TextBlock Text="Сортировка: " />
+                    <ComboBox Width="100">
+                        <ComboBoxItem Content="Цена ↑" />
+                        <ComboBoxItem Content="Цена ↓" />
+                    </ComboBox>
+                </StackPanel>
+
+                <!-- Столбец списка игр -->
+                <ScrollViewer Grid.Row="1" Name="AppsScrollViewer" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Name="AppListStackPanel">
+
+                        <!-- Список игр -->
+                        <ListView Name="AppsListView" Grid.Column="0" Style="{StaticResource GamesListView}" SelectionChanged="AppsListView_SelectionChanged">
+                            <TextBlock Text="Dummy App #1" Padding="15,2,2,2" Style="{StaticResource BlueTextBlock}" />
+                            <TextBlock Text="Dummy App #2" Padding="15,2,2,2" Style="{StaticResource BlueTextBlock}" />
+                            <TextBlock Text="Dummy App #3" Padding="15,2,2,2" Style="{StaticResource BlueTextBlock}" />
+                        </ListView>
+
+                    </StackPanel>
+                </ScrollViewer>
+
+            </StackPanel>
+        </Grid>
+        
+    </Grid>
+</Window>
