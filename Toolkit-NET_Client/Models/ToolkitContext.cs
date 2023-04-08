@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 
 namespace Toolkit_NET_Client.Models;
@@ -40,7 +39,9 @@ public partial class ToolkitContext : DbContext
     public virtual DbSet<UserPurchasedApp> UserPurchasedApps { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlite("datasource=C:\\Users\\Nilson\\source\\repos\\Toolkit-NET\\Toolkit-NET_Client\\Toolkit.db");
+    {
+        optionsBuilder.UseSqlite($"datasource={ToolkitApp.DbFilePath}");
+    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

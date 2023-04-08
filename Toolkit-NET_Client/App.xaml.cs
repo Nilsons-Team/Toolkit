@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -84,6 +85,48 @@ namespace Toolkit_NET_Client
         public static SolidColorBrush SolidColorBrush_Warning = new SolidColorBrush(Color_Warning);
         public static SolidColorBrush SolidColorBrush_Success = new SolidColorBrush(Color_Success);
         public static SolidColorBrush SolidColorBrush_DefaultBorderBrush = new SolidColorBrush(Color_DefaultBorderBrush);
+
+        public static string ProjectFolderPath;
+        public static string DbFilePath;
+
+        public ToolkitApp()
+        {
+            string executablePath = Environment.CurrentDirectory;
+            int projectFolderLastCharIndex = FindFirstFolderFromEnd(executablePath, "Toolkit-NET_Client");
+            string projectFolder = executablePath.Substring(0, projectFolderLastCharIndex);
+            string dbFilePath = projectFolder + "Toolkit.db";
+
+            ProjectFolderPath = projectFolder;
+            DbFilePath = dbFilePath;
+        }
+
+        public int FindFirstFolderFromEnd(string path, string searchFolderName)
+        {
+            char pathChar;
+            char folderChar;
+            bool found;
+            for (int pathCharIndex = path.Length - 1; pathCharIndex >= 0; pathCharIndex--)
+            {
+                found = true;
+
+                for (int folderCharIndex = searchFolderName.Length - 1, pathCompareCharIndex = pathCharIndex;
+                         folderCharIndex >= 0;
+                         folderCharIndex--, pathCompareCharIndex--)
+                {
+                    pathChar = path[pathCompareCharIndex];
+                    folderChar = searchFolderName[folderCharIndex];
+                    if (pathChar != folderChar)
+                    {
+                        found = false;
+                        break;
+                    }
+                }
+
+                if (found) return pathCharIndex + 2;
+            }
+
+            return -1;
+        }
 
         public static bool IsStrongPassword(string password)
         {
