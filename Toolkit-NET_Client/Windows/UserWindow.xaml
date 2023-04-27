@@ -19,12 +19,11 @@
             <TextBlock Name="NavigationUsernameTextBlock" Text="%ПОЛЬЗОВАТЕЛЬ%" Style="{StaticResource ChoosenHeaderTextBlock}" />
         </StackPanel>
 
-        <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <!-- Отображаемое имя -->
-            <TextBlock Name="UsernameHeaderTextBlock" Text="%Пользователь%" FontSize="24" TextAlignment="Center" Style="{StaticResource AccountHeaderTextBlock}" />
+        <ScrollViewer Grid.Row="1" Background="#fafafa" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+            <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <!-- Отображаемое имя -->
+                <TextBlock Name="UsernameHeaderTextBlock" Text="%Пользователь%" FontSize="24" TextAlignment="Center" Style="{StaticResource AccountHeaderTextBlock}" />
 
-            <StackPanel Orientation="Horizontal">
-                <!-- Левая часть -->
                 <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
@@ -41,46 +40,53 @@
                             <RowDefinition />
                             <RowDefinition />
                             <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
 
                         <!-- Логин -->
                         <TextBlock Grid.Row="0" Grid.Column="0" Text="Логин: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" />
-                        <TextBox   Grid.Row="0" Grid.Column="1" Name="LoginTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" IsEnabled="False" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Name="LoginTextBlock" Width="280" Margin="5" Style="{StaticResource BlueTextBlock}" />
 
                         <!-- Отображаемое имя -->
                         <TextBlock Grid.Row="1" Grid.Column="0" Text="Отображаемое имя: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" />
-                        <TextBox   Grid.Row="1" Grid.Column="1" Name="UsernameTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" IsEnabled="False" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Name="UsernameTextBlock" Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        <TextBox   Grid.Row="1" Grid.Column="1" Name="UsernameTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" Visibility="Collapsed" />
 
                         <!-- Эл. почта -->
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="Эл. почта: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" />
-                        <TextBox   Grid.Row="2" Grid.Column="1" Name="EmailTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" IsEnabled="False" />
+                        <TextBlock Grid.Row="2" Grid.Column="1" Name="EmailTextBlock" Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        <TextBox   Grid.Row="2" Grid.Column="1" Name="EmailTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" Visibility="Collapsed" />
 
                         <!-- Номер телефона -->
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Номер телефона: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" />
-                        <TextBox   Grid.Row="3" Grid.Column="1" Name="PhoneTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" IsEnabled="False" />
+                        <TextBlock Grid.Row="3" Grid.Column="1" Name="PhoneTextBlock" Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        <TextBox   Grid.Row="3" Grid.Column="1" Name="PhoneTextBox" Width="280" Margin="5" Style="{StaticResource BlueTextBox}" Visibility="Collapsed" />
 
                         <!-- Страна -->
                         <TextBlock Grid.Row="4" Grid.Column="0" Text="Страна: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" VerticalAlignment="Center" />
-                        <ComboBox  Grid.Row="4" Grid.Column="1" Name="CountryComboBox" Margin="5" Width="280" HorizontalAlignment="Left" Style="{StaticResource BlueComboBox}" IsEnabled="False" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Name="CountryTextBlock" Margin="5" Style="{StaticResource BlueTextBlock}" VerticalAlignment="Center" />
+                        <ComboBox  Grid.Row="4" Grid.Column="1" Name="CountryComboBox" Margin="5" Width="280" HorizontalAlignment="Left" Style="{StaticResource BlueComboBox}" Visibility="Collapsed" />
 
                         <!-- Пароль / Изменить данные -->
-                        <TextBlock   Grid.Row="5" Grid.Column="0" Name="PasswordTextBlock" Text="Пароль: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" Visibility="Collapsed" />
-                        <PasswordBox Grid.Row="5" Grid.Column="1" Name="PasswordBox" Margin="5" Style="{StaticResource BluePasswordBox}" Visibility="Collapsed" />
-                        <Button    Grid.Row="5" Grid.Column="1" Name="ChangeDetailsButton" Content="Изменить данные" Margin="5" Style="{StaticResource BlueButton}" Click="ChangeDetailsButton_Click" />
+                        <TextBlock   Grid.Row="5" Grid.Column="0" Name="CurrentPasswordTextBlock" Text="Текущий пароль: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" Visibility="Collapsed" />
+                        <PasswordBox Grid.Row="5" Grid.Column="1" Name="CurrentPasswordBox" Margin="5" Style="{StaticResource BluePasswordBox}" Visibility="Collapsed" />
+                        <Button      Grid.Row="5" Grid.Column="1" Name="ChangeDetailsButton" Content="Изменить данные" Margin="5" Style="{StaticResource BlueButton}" Click="ChangeDetailsButton_Click" />
 
                         <!-- Новый Пароль / Изменить пароль -->
                         <TextBlock   Grid.Row="6" Grid.Column="0" Name="NewPasswordTextBlock" Text="Новый пароль: " Margin="5" TextAlignment="Right" Style="{StaticResource BlueTextBlock}" Visibility="Collapsed" />
                         <PasswordBox Grid.Row="6" Grid.Column="1" Name="NewPasswordBox" Margin="5" Style="{StaticResource BluePasswordBox}" Visibility="Collapsed" />
-                        <Button    Grid.Row="6" Grid.Column="1" Name="ChangePasswordButton" Content="Изменить пароль" Margin="5" Style="{StaticResource BlueButton}" Click="ChangePasswordButton_Click" />
+                        <Button      Grid.Row="6" Grid.Column="1" Name="ChangePasswordButton" Content="Изменить пароль" Margin="5" Style="{StaticResource BlueButton}" Click="ChangePasswordButton_Click" />
 
                         <!-- Подтвердить изменения -->
                         <Button    Grid.Row="7" Grid.Column="1" Name="ConfirmButton" Content="Подтвердить" Margin="5" Style="{StaticResource BlueButton}" Click="ConfirmButton_Click" Visibility="Collapsed" />
                         <TextBlock Grid.Row="8" Grid.Column="1" Name="ConfirmStatusTextBlock" TextAlignment="Center" Width="280" TextWrapping="Wrap" Style="{StaticResource DefaultTextBlock}" Visibility="Collapsed" />
+
+                        <!-- Отменить -->
+                        <Button    Grid.Row="9" Grid.Column="1" Name="CancelButton" Content="Отменить" Margin="5" Style="{StaticResource BlueButton}" Click="CancelButton_Click" Visibility="Collapsed" />
                     </Grid>
 
                 </StackPanel>
 
-                <!-- Правая часть -->
                 <StackPanel>
                     <!-- Дата регистрации -->
                     <StackPanel Orientation="Horizontal">
@@ -103,8 +109,8 @@
                     <Button Name="AddFundsButton" Content="Пополнить" Margin="5" Style="{StaticResource BlueButton}" Click="AddFundsButton_Click" />
                     <TextBlock Name="AddFundsStatusTextBlock" TextAlignment="Center" Width="280" TextWrapping="Wrap" Style="{StaticResource DefaultTextBlock}" Visibility="Collapsed" />
                 </StackPanel>
-            </StackPanel>
 
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>
