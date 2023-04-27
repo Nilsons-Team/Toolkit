@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using Toolkit_NET_Client.Models;
@@ -19,17 +17,17 @@ namespace Toolkit_NET_Client.Windows
             InitializeComponent();
             this.user = user;
 
-            this.UsernameTextBlock.Text = user.Username;
+            this.NavigationUsernameTextBlock.Text = user.Username;
         }
 
-        private void UsernameTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void NavigationUsernameTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var userWindow = new UserWindow(this.user);
             userWindow.Show();
             this.Close();
         }
 
-        private void StoreTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void NavigationStoreTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var storeWindow = new StoreWindow(this.user);
             storeWindow.Show();

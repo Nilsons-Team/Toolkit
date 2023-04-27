@@ -40,7 +40,9 @@ namespace Toolkit_NET_Client.Windows
 
         private void UpdateFields(bool updateCountry)
         {
-            this.UsernameTextBlock.Text = user.Username;
+            this.NavigationUsernameTextBlock.Text = user.Username;
+            this.UsernameTextBlock.Text           = user.Username;
+            this.UsernameHeaderTextBlock.Text     = user.Username;
 
             this.UsernameHeaderTextBlock.Text = user.Username;
 
@@ -397,14 +399,14 @@ namespace Toolkit_NET_Client.Windows
             }
         }
 
-        private void StoreTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void NavigationStoreTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var storeWindow = new StoreWindow(this.user);
             storeWindow.Show();
             this.Close();
         }
 
-        private void LibraryTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void NavigationLibraryTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var libraryWindow = new LibraryWindow(this.user);
             libraryWindow.Show();

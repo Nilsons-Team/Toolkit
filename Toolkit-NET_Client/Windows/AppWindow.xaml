@@ -8,15 +8,15 @@
         Title="Toolkit - КОМПАС-3D" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="#f5f5f5">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="{Binding ElementName=UsernameTextBlock, Path=Height}" />
+            <RowDefinition Height="{Binding ElementName=NavigationUsernameTextBlock, Path=Height}" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <!-- Верхняя часть окна -->
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock Name="UsernameTextBlock" Text="%ПОЛЬЗОВАТЕЛЬ%" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="UsernameTextBlock_MouseLeftButtonDown" />
-            <TextBlock Name="LibraryTextBlock" Text="БИБЛИОТЕКА" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="LibraryTextBlock_MouseLeftButtonDown" />
-            <TextBlock Name="StoreTextBlock" Text="МАГАЗИН" Style="{StaticResource ChoosenHeaderTextBlock}" MouseLeftButtonDown="StoreTextBlock_MouseLeftButtonDown" />
+            <TextBlock Name="NavigationLibraryTextBlock" Text="БИБЛИОТЕКА" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="NavigationLibraryTextBlock_MouseLeftButtonDown" />
+            <TextBlock Name="NavigationStoreTextBlock" Text="МАГАЗИН" Style="{StaticResource ChoosenHeaderTextBlock}" MouseLeftButtonDown="NavigationStoreTextBlock_MouseLeftButtonDown" />
+            <TextBlock Name="NavigationUsernameTextBlock" Text="%ПОЛЬЗОВАТЕЛЬ%" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="NavigationUsernameTextBlock_MouseLeftButtonDown" />
         </StackPanel>
 
         <!-- Страница игры -->
@@ -61,7 +61,7 @@
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,20,0">
                             <TextBlock Name="PurchaseStatusTextBlock" VerticalAlignment="Center" Padding="5" Height="{Binding ElementName=PurchaseButton, Path=Height}" Style="{StaticResource DefaultTextBlock}" />
                             <TextBlock Name="PriceTextBlock" Text="799 руб." VerticalAlignment="Center" Background="#dddddd" Padding="5" Height="{Binding ElementName=PurchaseButton, Path=Height}" Style="{StaticResource DefaultTextBlock}" />
-                            <Button Name="PurchaseButton" Content="Купить" Style="{StaticResource BlueButton}" Click="PurchaseButton_Click" />
+                            <Button Name="PurchaseButton" Content="Купить" Style="{StaticResource BlueButton}" />
                         </StackPanel>
 
                     </StackPanel>

@@ -20,7 +20,7 @@ namespace Toolkit_NET_Client.Windows
             InitializeComponent();
             this.user = user;
 
-            this.UsernameTextBlock.Text = user.Username;
+            this.NavigationUsernameTextBlock.Text = user.Username;
 
             using (var db = new ToolkitContext())
             {
@@ -55,14 +55,14 @@ namespace Toolkit_NET_Client.Windows
 
         }
 
-        private void LibraryTextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void NavigationLibraryTextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var libraryWindow = new LibraryWindow(this.user);
             libraryWindow.Show();
             this.Close();
         }
 
-        private void UsernameTextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void NavigationUsernameTextBlock_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             var userWindow = new UserWindow(this.user);
             userWindow.Show();

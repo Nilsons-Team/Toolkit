@@ -14,9 +14,9 @@
 
         <!-- Верхняя часть окна -->
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <TextBlock Name="UsernameTextBlock" Text="%ПОЛЬЗОВАТЕЛЬ%" Style="{StaticResource ChoosenHeaderTextBlock}" />
-            <TextBlock Name="LibraryTextBlock" Text="БИБЛИОТЕКА" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="LibraryTextBlock_MouseLeftButtonDown" />
-            <TextBlock Name="StoreTextBlock" Text="МАГАЗИН" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="StoreTextBlock_MouseLeftButtonDown" />
+            <TextBlock Name="NavigationLibraryTextBlock" Text="БИБЛИОТЕКА" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="NavigationLibraryTextBlock_MouseLeftButtonDown" />
+            <TextBlock Name="NavigationStoreTextBlock" Text="МАГАЗИН" Style="{StaticResource HeaderTextBlock}" MouseLeftButtonDown="NavigationStoreTextBlock_MouseLeftButtonDown" />
+            <TextBlock Name="NavigationUsernameTextBlock" Text="%ПОЛЬЗОВАТЕЛЬ%" Style="{StaticResource ChoosenHeaderTextBlock}" />
         </StackPanel>
 
         <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
