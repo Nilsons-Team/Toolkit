@@ -44,7 +44,6 @@ namespace Toolkit_NET_Client.Windows
         {
             this.NavigationUsernameTextBlock.Text = user.Username;
             this.UsernameTextBlock.Text           = user.Username;
-            this.UsernameHeaderTextBlock.Text     = user.Username;
 
             this.LoginTextBlock.Text    = user.Login;
             this.UsernameTextBlock.Text = user.Username;
@@ -273,7 +272,6 @@ namespace Toolkit_NET_Client.Windows
             this.user = user;
 
             this.UsernameTextBlock.Text = username;
-            this.UsernameHeaderTextBlock.Text = username;
 
             ToolkitApp.SetStatusSuccess(this.ConfirmStatusTextBlock, "Данные успешно изменены.");
 
@@ -453,6 +451,17 @@ namespace Toolkit_NET_Client.Windows
             var libraryWindow = new LibraryWindow(this.user);
             libraryWindow.Show();
             this.Close();
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            var result = MessageBox.Show(this, "Вы действительно хотите выйти из аккаунта?", "Toolkit - Выход из аккаунта", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes)
+            {
+                var authWindow = new LoginWindow();
+                authWindow.Show();
+                this.Close();
+            }
         }
     }
 }

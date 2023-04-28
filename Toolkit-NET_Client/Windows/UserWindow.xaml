@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Toolkit_NET_Client.Windows"
         mc:Ignorable="d"
-        Title="Toolkit - Профиль" Height="450" Width="800" WindowStartupLocation="CenterScreen" Background="#f5f5f5">
+        Title="Toolkit - Профиль" Width="800" Height="600" WindowStartupLocation="CenterScreen" Background="#f5f5f5">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="{Binding ElementName=UsernameTextBlock, Path=Height}" />
@@ -21,14 +21,15 @@
 
         <ScrollViewer Grid.Row="1" Background="#fafafa" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
             <StackPanel Grid.Row="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <!-- Отображаемое имя -->
-                <TextBlock Name="UsernameHeaderTextBlock" Text="%Пользователь%" FontSize="24" TextAlignment="Center" Style="{StaticResource AccountHeaderTextBlock}" />
 
-                <StackPanel>
+                <!-- Профиль -->
+                <StackPanel Background="#F5F5F5" Margin="5">
+                    <TextBlock Text="Профиль" Background="#F0F0F0" FontSize="24" TextAlignment="Center" Style="{StaticResource AccountHeaderTextBlock}" />
+
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
+                            <ColumnDefinition Name="ProfileGridColumn1" />
+                            <ColumnDefinition Name="ProfileGridColumn2" Width="290" />
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
                             <RowDefinition />
@@ -82,32 +83,53 @@
                         <TextBlock Grid.Row="8" Grid.Column="1" Name="ConfirmStatusTextBlock" TextAlignment="Center" Width="280" TextWrapping="Wrap" Style="{StaticResource DefaultTextBlock}" Visibility="Collapsed" />
 
                         <!-- Отменить -->
+                        <Button    Grid.Row="9" Grid.Column="1" Name="LogoutButton" Content="Выйти из аккаунта" Margin="5" Style="{StaticResource BlueButton}" Click="LogoutButton_Click" />
                         <Button    Grid.Row="9" Grid.Column="1" Name="CancelButton" Content="Отменить" Margin="5" Style="{StaticResource BlueButton}" Click="CancelButton_Click" Visibility="Collapsed" />
                     </Grid>
 
                 </StackPanel>
 
-                <StackPanel>
-                    <!-- Дата регистрации -->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Дата регистрации: " Margin="5" Style="{StaticResource BlueTextBlock}" />
-                        <TextBlock Name="RegistrationDatetimeTextBlock" Margin="5" Style="{StaticResource BlueTextBlock}" />
-                    </StackPanel>
-                    
-                    <!-- Баланс -->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Баланс: " Margin="5" Style="{StaticResource BlueTextBlock}" />
-                        <TextBlock Name="WalletTextBlock" Text="0 р." Margin="5" Style="{StaticResource BlueTextBlock}" />
-                    </StackPanel>
-                    
-                    <!-- Пополнение -->
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Сумма пополнения: " Margin="5" Style="{StaticResource BlueTextBlock}" />
-                        <TextBox Name="AddFundsTextBox" Width="60" Margin="5" Style="{StaticResource BlueTextBox}" />
-                        <TextBlock Text="р." Margin="5" Style="{StaticResource BlueTextBlock}" />
-                    </StackPanel>
-                    <Button Name="AddFundsButton" Content="Пополнить" Margin="5" Style="{StaticResource BlueButton}" Click="AddFundsButton_Click" />
-                    <TextBlock Name="AddFundsStatusTextBlock" TextAlignment="Center" Width="280" TextWrapping="Wrap" Style="{StaticResource DefaultTextBlock}" Visibility="Collapsed" />
+                <!-- Кошелек -->
+                <StackPanel Background="#F5F5F5" Margin="5">
+                    <TextBlock Text="Кошелек" Background="#F0F0F0" FontSize="24" TextAlignment="Center" Style="{StaticResource AccountHeaderTextBlock}" />
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="{Binding ElementName=ProfileGridColumn1, Path=Width}" />
+                            <ColumnDefinition Width="{Binding ElementName=ProfileGridColumn2, Path=Width}" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <!-- Дата регистрации -->
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="Дата регистрации: " Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        <TextBlock Grid.Row="0" Grid.Column="1" Name="RegistrationDatetimeTextBlock" Margin="5" Style="{StaticResource BlueTextBlock}" />
+
+                        <!-- Баланс -->
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="Баланс: " Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Name="WalletTextBlock" Text="0 р." Margin="5" Style="{StaticResource BlueTextBlock}" />
+
+                        <!-- Пополнение -->
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="Сумма пополнения: " Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal">
+                            <TextBox   Name="AddFundsTextBox" Width="250" Margin="5" Style="{StaticResource BlueTextBox}" />
+                            <TextBlock Text="р." Margin="5" Style="{StaticResource BlueTextBlock}" />
+                        </StackPanel>
+                        <Button    Grid.Row="3" Grid.Column="1" Name="AddFundsButton" Content="Пополнить" Margin="5" Style="{StaticResource BlueButton}" Click="AddFundsButton_Click" />
+                        <TextBlock Grid.Row="4" Grid.Column="1" Name="AddFundsStatusTextBlock" TextAlignment="Center" Width="280" TextWrapping="Wrap" Style="{StaticResource DefaultTextBlock}" Visibility="Collapsed" />
+                    </Grid>
+                </StackPanel>
+
+                <!-- Партнерство -->
+                <StackPanel Background="#F5F5F5" Margin="5">
+                    <TextBlock Text="Партнерство" Background="#F0F0F0" FontSize="24" TextAlignment="Center" Style="{StaticResource AccountHeaderTextBlock}" />
+                    <TextBlock Text="Вы Разработчик или Издатель? Станьте частью нашей платформы и используйте все ее преимущества для продвижения ваших приложений." Width="440" HorizontalAlignment="Left" Margin="5" Style="{StaticResource BlueTextBlock}" />
+                    <Button Name="PartnershipButton" Content="Открыть панель партнера" Margin="5" Width="280" Style="{StaticResource BlueButton}" Click="PartnershipButton_Click" />
                 </StackPanel>
 
             </StackPanel>
