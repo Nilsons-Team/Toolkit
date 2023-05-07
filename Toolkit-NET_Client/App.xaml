@@ -115,7 +115,7 @@
         <!-- ComboBox / BlueComboBox -->
         <Style TargetType="ComboBox" x:Key="BlueComboBox">
             <Setter Property="FontFamily" Value="OpenSans" />
-            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontSize" Value="14" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Foreground" Value="#1070e0" />
             <!--Setter Property="Background" Value="#428beb" /-->
@@ -171,25 +171,33 @@
         <Style TargetType="CheckBox" x:Key="BlueCheckBox">
             <Setter Property="FontFamily" Value="OpenSans" />
             <Setter Property="FontSize" Value="16" />
-            <Setter Property="Foreground" Value="#0051ba" />
-            <Setter Property="Background" Value="#428beb" />
-            <Setter Property="BorderBrush" Value="#428beb" />
+            <Setter Property="Foreground" Value="#59afff" />
+            <Setter Property="Background" Value="#59afff" />
+            <Setter Property="BorderBrush" Value="#59afff" />
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="CheckBox">
-                        <!--TextBlock x:Name="TemplateText" Text="" /-->
-                        <Border x:Name="TemplateBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Width="20" Height="20">
-                            <TextBlock x:Name="TemplateText" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#ffffff" />
+                        <Border 
+                            x:Name="BoxBorder" 
+                            BorderBrush="{TemplateBinding BorderBrush}" 
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{TemplateBinding Background}" 
+                            Width="{Binding ElementName=BoxText, Path=FontSize}" 
+                            Height="{Binding ElementName=BoxText, Path=FontSize}">
+                            
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock x:Name="BoxText" Text="" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="#ffffff" />
+                            </StackPanel>
+                            
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="false">
-                                <Setter Property="BorderBrush" TargetName="TemplateBorder" Value="#428beb" />
-                                <Setter Property="Text" TargetName="TemplateText" Value="" />
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="BoxBorder" Value="#1070e0" />
                             </Trigger>
+
                             <Trigger Property="IsChecked" Value="true">
-                                <Setter Property="BorderBrush" TargetName="TemplateBorder" Value="#0051ba" />
-                                <Setter Property="Text" TargetName="TemplateText" Value="✓" />
+                                <Setter Property="Text" TargetName="BoxText" Value="✓" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
