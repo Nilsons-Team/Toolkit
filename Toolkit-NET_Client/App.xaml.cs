@@ -71,6 +71,19 @@ namespace Toolkit_NET_Client
         public AuthUserResultType result;
     }
 
+    public interface ISearchElement
+    {
+        long Id { get; set; }
+        string Name { get; set; }
+    }
+
+    public enum SearchElementType
+    {
+        NONE = 0,
+        CATEGORY = 1,
+        TAG = 2
+    }
+
     /// <summary>
     /// Interaction logic for ToolkitApp.xaml
     /// </summary>
@@ -291,6 +304,12 @@ namespace Toolkit_NET_Client
             if (countryId.Length != Country.TWO_LETTER_ISO_CODE_LENGTH)
                 return RegisterUserResultType.FAIL_INCORRECT_COUNTRY_CODE;
 
+            using (var db = new ToolkitContext()) {
+                foreach (User user in db.Users)
+                    if (user.Login == login)
+                        return RegisterUserResultType.FAIL_ALREADY_REGISTERED;
+            }
+
             return RegisterUserResultType.SUCCESS;
         }
 
@@ -358,6 +377,16 @@ namespace Toolkit_NET_Client
             return RegisterUserResultType.SUCCESS;
         }
 
+        public static RegisterUserResultType IsAlreadyRegistered(string login) {
+            using (var db = new ToolkitContext()) {
+                foreach (User user in db.Users)
+                    if (user.Login == login)
+                        return RegisterUserResultType.FAIL_ALREADY_REGISTERED;
+            }
+
+            return RegisterUserResultType.SUCCESS;
+        }
+
         public static bool IsCorrectPhone(string phone)
         {
             phone = phone.Trim();
@@ -408,8 +437,14 @@ namespace Toolkit_NET_Client
             result.user = null;
             result.result = RegisterUserResultType.SUCCESS;
 
-            using (var db = new ToolkitContext())
-            {
+            using (var db = new ToolkitContext()) {
+                foreach (var dbUser in db.Users) {
+                    if (dbUser.Login == login) {
+                        result.result = RegisterUserResultType.FAIL_ALREADY_REGISTERED;
+                        return result;
+                    }
+                }
+
                 User user = new User()
                 {
                     Login = login,
@@ -421,26 +456,20 @@ namespace Toolkit_NET_Client
 
                 db.Users.Add(user);
 
-                try
-                {
-                    db.SaveChanges();
+                try {
                     result.user = user;
-                }
-                catch (DbUpdateException dbUpdateException)
-                {
+                    db.SaveChanges();
+                } catch (DbUpdateException dbUpdateException) {
                     var innerException = dbUpdateException.InnerException;
-                    if (innerException == null)
-                    {
+                    if (innerException == null) {
                         Debug.WriteLine("Unknown DB failure: there was no `InnerException` in `DbUpdateException`.");
                         result.result = RegisterUserResultType.FAIL_DATABASE_FAILURE;
                         return result;
                     }
 
-                    if (innerException is SqliteException)
-                    {
+                    if (innerException is SqliteException) {
                         SqliteException sqliteException = (SqliteException)innerException;
-                        if (sqliteException.SqliteExtendedErrorCode == (int)SQLiteErrorCode.SQLITE_CONSTRAINT_FOREIGNKEY)
-                        {
+                        if (sqliteException.SqliteExtendedErrorCode == (int)SQLiteErrorCode.SQLITE_CONSTRAINT_FOREIGNKEY) {
                             result.result = RegisterUserResultType.FAIL_COUNTRY_NOT_FOUND;
                             return result;
                         }
@@ -456,14 +485,12 @@ namespace Toolkit_NET_Client
             AuthUserResult result;
             result.user = null;
 
-            if (string.IsNullOrWhiteSpace(login))
-            {
+            if (string.IsNullOrWhiteSpace(login)) {
                 result.result = AuthUserResultType.FAIL_EMPTY_LOGIN;
                 return result;
             }
 
-            if (string.IsNullOrWhiteSpace(password))
-            {
+            if (string.IsNullOrWhiteSpace(password)) {
                 result.result = AuthUserResultType.FAIL_EMPTY_PASSWORD;
                 return result;
             }
@@ -471,10 +498,8 @@ namespace Toolkit_NET_Client
             using (var db = new ToolkitContext())
             {
                 string hashPassword = GetHashSHA256(password);
-                foreach (var user in db.Users)
-                {
-                    if (user.Login == login && user.Password == hashPassword)
-                    {
+                foreach (var user in db.Users) {
+                    if (user.Login == login && user.Password == hashPassword) {
                         result.user = user;
                         result.result = AuthUserResultType.SUCCESS;
                         return result;
@@ -488,8 +513,7 @@ namespace Toolkit_NET_Client
 
         public static void SetStatusError(TextBlock statusTextBlock, string? error)
         {
-            if (string.IsNullOrEmpty(error))
-            {
+            if (string.IsNullOrEmpty(error)) {
                 statusTextBlock.Visibility = Visibility.Collapsed;
                 return;
             }
@@ -503,8 +527,7 @@ namespace Toolkit_NET_Client
 
         public static void SetStatusWarning(TextBlock statusTextBlock, string? warning)
         {
-            if (string.IsNullOrEmpty(warning))
-            {
+            if (string.IsNullOrEmpty(warning)) {
                 statusTextBlock.Visibility = Visibility.Collapsed;
                 return;
             }
@@ -518,8 +541,7 @@ namespace Toolkit_NET_Client
 
         public static void SetStatusSuccess(TextBlock statusTextBlock, string? success)
         {
-            if (string.IsNullOrEmpty(success))
-            {
+            if (string.IsNullOrEmpty(success)) {
                 statusTextBlock.Visibility = Visibility.Collapsed;
                 return;
             }
@@ -536,16 +558,67 @@ namespace Toolkit_NET_Client
             statusTextBlock.Visibility = Visibility.Collapsed;
         }
 
-        public static User? FindUser(long id, ToolkitContext? context)
+        public static User? FindUserById(long id, ToolkitContext? context)
         {
             User? result = null;
             bool contextPassed = (context != null);
             var db = (contextPassed) ? context : new ToolkitContext();
-            foreach (var user in db.Users)
-            {
-                if (user.Id == id)
-                {
+            foreach (var user in db.Users) {
+                if (user.Id == id) {
                     result = user;
+                    break;
+                }
+            }
+
+            if (!contextPassed)
+                db.Dispose();
+
+            return result;
+        }
+
+        public static Category? FindCategoryById(long id, ToolkitContext? context)
+        {
+            Category? result = null;
+            bool contextPassed = (context != null);
+            var db = (contextPassed) ? context : new ToolkitContext();
+            foreach (var category in db.Categories) {
+                if (category.Id == id) {
+                    result = category;
+                    break;
+                }
+            }
+
+            if (!contextPassed)
+                db.Dispose();
+
+            return result;
+        }
+
+        public static Tag? FindTagById(long id, ToolkitContext? context)
+        {
+            Tag? result = null;
+            bool contextPassed = (context != null);
+            var db = (contextPassed) ? context : new ToolkitContext();
+            foreach (var tag in db.Tags) {
+                if (tag.Id == id) {
+                    result = tag;
+                    break;
+                }
+            }
+
+            if (!contextPassed)
+                db.Dispose();
+
+            return result;
+        }
+
+        public static Company? FindCompanyByOwnerUserId(long id, ToolkitContext? context) {
+            Company? result = null;
+            bool contextPassed = (context != null);
+            var db = (contextPassed) ? context : new ToolkitContext();
+            foreach (var company in db.Companies) {
+                if (company.OwnerUserId == id) {
+                    result = company;
                     break;
                 }
             }

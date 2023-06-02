@@ -13,8 +13,8 @@
             <Setter Property="Padding" Value="10,5,10,5" />
         </Style>
 
-        <!-- TextBlock / ChoosenHeaderTextBlock -->
-        <Style TargetType="TextBlock" x:Key="ChoosenHeaderTextBlock">
+        <!-- TextBlock / SelectedHeaderTextBlock -->
+        <Style TargetType="TextBlock" x:Key="SelectedHeaderTextBlock">
             <Setter Property="FontFamily" Value="OpenSans" />
             <Setter Property="FontSize" Value="32" />
             <Setter Property="Foreground" Value="#ffffff" />

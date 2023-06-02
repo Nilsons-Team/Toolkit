@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using System.Threading;
 using System.Windows;
@@ -32,15 +31,12 @@ namespace Toolkit_NET_Client.Windows
         public void LoadCountriesIntoComboBox()
         {
             List<Country> countries;
-            using (var db = new ToolkitContext())
-            {
+            using (var db = new ToolkitContext()) {
                 countries = db.Countries.ToList();
             }
 
-            Application.Current.Dispatcher.BeginInvoke(() =>
-            {
-                foreach (var country in countries)
-                {
+            Application.Current.Dispatcher.BeginInvoke(() => {
+                foreach (var country in countries) {
                     string item = string.Format("{0} ({1})", country.CountryName, country.StateName);
                     var comboItem = new ComboBoxItem();
                     comboItem.Name = country.TwoLetterIsoCode;
@@ -83,28 +79,20 @@ namespace Toolkit_NET_Client.Windows
             // Password
             var passwordResult = ToolkitApp.IsValidPassword(password);
             var confirmPasswordMatchesOriginal = false;
-            if (passwordResult != RegisterUserResultType.SUCCESS)
-            {
+            if (passwordResult != RegisterUserResultType.SUCCESS) {
                 this.PasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
-            }
-            else
-            {
+            } else {
                 this.PasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
 
                 // Confirm password
                 string confirmPassword = this.ConfirmPasswordBox.Password;
-                if (string.IsNullOrWhiteSpace(confirmPassword))
-                {
+                if (string.IsNullOrWhiteSpace(confirmPassword)) {
                     ToolkitApp.SetStatusError(this.ConfirmPasswordStatusTextBlock, "Введите пароль.");
                     this.ConfirmPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
-                }
-                else if (password != confirmPassword)
-                {
+                } else if (password != confirmPassword) {
                     ToolkitApp.SetStatusError(this.ConfirmPasswordStatusTextBlock, "Пароли не совпадают.");
                     this.ConfirmPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
-                }
-                else
-                {
+                } else {
                     confirmPasswordMatchesOriginal = true;
                     ToolkitApp.ClearStatus(this.ConfirmPasswordStatusTextBlock);
                     this.ConfirmPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
@@ -147,13 +135,10 @@ namespace Toolkit_NET_Client.Windows
             // Terms
             bool? checkboxChecked = this.AcceptTermsCheckBox.IsChecked;
             bool termsAccepted = (checkboxChecked != null) ? (bool)checkboxChecked : false;
-            if (!termsAccepted)
-            {
+            if (!termsAccepted) {
                 this.AcceptTermsCheckBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                 ToolkitApp.SetStatusError(this.AcceptTermsStatusTextBlock, "Подтвердите соглашение.");
-            }
-            else
-            {
+            } else {
                 this.AcceptTermsCheckBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
                 ToolkitApp.ClearStatus(this.AcceptTermsStatusTextBlock);
             }
@@ -167,11 +152,14 @@ namespace Toolkit_NET_Client.Windows
             canRegister &= !Convert.ToBoolean((int)countryResult);
             canRegister &= termsAccepted;
 
-            if (canRegister)
-            {
+            if (canRegister) {
                 RegisterUserResult registerResult = ToolkitApp._UncheckedRegisterUser(login, password, username, email, countryId);
-                string errorString = ToolkitApp.GetErrorMessageFromRegisterResult(registerResult.result);
-                ToolkitApp.SetStatusError(this.RegisterStatusTextBlock, errorString);
+                if (registerResult.result == RegisterUserResultType.SUCCESS) {
+                    ToolkitApp.SetStatusSuccess(this.RegisterStatusTextBlock, "Вы успешно зарегистрировались.");
+                } else {
+                    string errorString = ToolkitApp.GetErrorMessageFromRegisterResult(registerResult.result);
+                    ToolkitApp.SetStatusError(this.RegisterStatusTextBlock, errorString);
+                }
             }
         }
     }

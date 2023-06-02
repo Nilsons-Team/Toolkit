@@ -65,21 +65,20 @@ namespace Toolkit_NET_Client.Windows
             canAuth &= !Convert.ToBoolean((int)loginResult);
             canAuth &= !Convert.ToBoolean((int)passwordResult);
 
-            if (canAuth)
-            {
+            if (canAuth) {
                 AuthUserResult authResult = ToolkitApp.AuthUser(login, password);
                 string authError = ToolkitApp.GetErrorMessageFromAuthResult(authResult.result);
                 ToolkitApp.SetStatusError(this.StatusTextBlock, authError);
 
-                if (authResult.result == AuthUserResultType.SUCCESS)
-                {
-                    var storeWindow = new StoreWindow(authResult.user);
-                    storeWindow.Show();
+                if (authResult.result == AuthUserResultType.SUCCESS) {
+                    // var storeWindow = new StoreWindow(authResult.user);
+                    // storeWindow.Show();
+                    // this.Close();
+                    var newUserWindow = new MainWindow(authResult.user);
+                    newUserWindow.Show();
                     this.Close();
                 }
-            }
-            else
-            {
+            } else {
                 ToolkitApp.ClearStatus(this.StatusTextBlock);
             }
         }

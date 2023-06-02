@@ -3,13 +3,25 @@
   <PropertyGroup />
   <ItemGroup />
   <ItemGroup>
+    <Compile Update="Pages\CompanyProfilePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\UserLibraryPage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\UserStorePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Pages\UserProfilePage.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Windows\AppWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\LibraryWindow.xaml.cs">
+    <Compile Update="Windows\LoginWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Windows\LoginWindow.xaml.cs">
+    <Compile Update="Windows\PartnerWindow.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Windows\RegistrationWindow.xaml.cs">
@@ -20,19 +32,31 @@
     <Page Update="App.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\AppWindow.xaml">
+    <Page Update="Pages\CompanyProfilePage.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\LibraryWindow.xaml">
+    <Page Update="Pages\UserLibraryPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\UserStorePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Pages\UserProfilePage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Windows\AppWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Windows\PartnerWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Windows\RegistrationWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Windows\StoreWindow.xaml">
+    <Page Update="Windows\MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

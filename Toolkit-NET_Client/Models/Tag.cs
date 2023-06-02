@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Toolkit_NET_Client.Models;
 
-public partial class Tag
+public partial class Tag : ISearchElement
 {
     public const int NAME_MAX_LENGTH = 32;
 

@@ -24,23 +24,23 @@ namespace Toolkit_NET_Client.Windows
 
         private void NavigationLibraryTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var libraryWindow = new LibraryWindow(this.user);
-            libraryWindow.Show();
-            this.Close();
+            // var libraryWindow = new LibraryWindow(this.user);
+            // libraryWindow.Show();
+            // this.Close();
         }
 
         private void NavigationUsernameTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var userWindow = new UserWindow(this.user);
-            userWindow.Show();
-            this.Close();
+            // var userWindow = new UserWindow(this.user);
+            // userWindow.Show();
+            // this.Close();
         }
 
         private void NavigationStoreTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            var storeWindow = new StoreWindow(this.user);
-            storeWindow.Show();
-            this.Close();
+            // var storeWindow = new StoreWindow(this.user);
+            // storeWindow.Show();
+            // this.Close();
         }
     }
 }

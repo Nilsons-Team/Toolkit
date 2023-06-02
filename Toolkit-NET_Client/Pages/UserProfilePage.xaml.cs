@@ -4,16 +4,16 @@ using System.Linq;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 using Toolkit_NET_Client.Models;
+using Toolkit_NET_Client.Windows;
 
-namespace Toolkit_NET_Client.Windows
+namespace Toolkit_NET_Client.Pages
 {
     /// <summary>
-    /// Логика взаимодействия для UserWindow.xaml
+    /// Interaction logic for UserPage.xaml
     /// </summary>
-    public partial class UserWindow : Window
+    public partial class UserProfilePage : Page
     {
         public enum ActionType
         {
@@ -22,53 +22,59 @@ namespace Toolkit_NET_Client.Windows
             CHANGE_PASSWORD = 2
         }
 
+        private MainWindow ownerWindow;
+        public PartnerWindow partnerWindow;
         private User user;
+
         private ActionType actionType;
 
         private int currentUserCountryComboBoxIndex;
 
-        public UserWindow(User user)
+        public UserProfilePage(MainWindow ownerWindow, User user)
         {
             InitializeComponent();
+            this.ownerWindow = ownerWindow;
+            this.partnerWindow = null;
             this.user = user;
 
             var initThread = new Thread(LoadCountriesIntoComboBox);
             initThread.Start();
 
             this.actionType = ActionType.NONE;
+
+            UsernameTextBox.MaxLength = User.USERNAME_MAX_LENGTH;
+            EmailTextBox.MaxLength    = User.EMAIL_MAX_LENGTH;
+            PhoneTextBox.MaxLength    = User.PHONE_MAX_LENGTH;
             
             UpdateFields(updateCountry: false);
         }
 
         private void UpdateFields(bool updateCountry)
         {
-            this.NavigationUsernameTextBlock.Text = user.Username;
-            this.UsernameTextBlock.Text           = user.Username;
+            UsernameTextBlock.Text = user.Username;
 
-            this.LoginTextBlock.Text    = user.Login;
-            this.UsernameTextBlock.Text = user.Username;
-            this.UsernameTextBox.Text   = user.Username;
-            this.EmailTextBlock.Text    = user.Email;
-            this.EmailTextBox.Text      = user.Email;
-            this.PhoneTextBlock.Text    = string.IsNullOrEmpty(user.Phone) ? "-" : user.Phone;
-            this.PhoneTextBox.Text      = string.IsNullOrEmpty(user.Phone) ? "" : user.Phone;
+            LoginTextBlock.Text    = user.Login;
+            UsernameTextBlock.Text = user.Username;
+            UsernameTextBox.Text   = user.Username;
+            EmailTextBlock.Text    = user.Email;
+            EmailTextBox.Text      = user.Email;
+            PhoneTextBlock.Text    = string.IsNullOrEmpty(user.Phone) ? "-" : user.Phone;
+            PhoneTextBox.Text      = string.IsNullOrEmpty(user.Phone) ? "" : user.Phone;
             if (updateCountry)
                 UpdateSelectedCountry();
 
             DateTime reg;
             bool datetimeParsed = DateTime.TryParse(user.RegistrationDatetime, out reg);
             string datetimeString = (datetimeParsed) ? $"{reg.Day} {ToolkitApp.GetDatetimeMonthName(reg.Month)} {reg.Year}" : "-";
-            this.RegistrationDatetimeTextBlock.Text = datetimeString;
-            this.WalletTextBlock.Text = $"{user.Wallet,2} р.";
+            RegistrationDatetimeTextBlock.Text = datetimeString;
+            WalletTextBlock.Text = $"{user.Wallet,2} р.";
         }
 
         public void UpdateSelectedCountry()
         {
-            for (int i = 0; i < this.CountryComboBox.Items.Count; i++)
-            {
-                ComboBoxItem item = (ComboBoxItem)this.CountryComboBox.Items[i];
-                if (this.user.CountryId == item.Name)
-                {
+            for (int i = 0; i < this.CountryComboBox.Items.Count; i++) {
+                ComboBoxItem item = (ComboBoxItem) this.CountryComboBox.Items[i];
+                if (this.user.CountryId == item.Name) {
                     this.CountryTextBlock.Text = (string)item.Content;
                     this.CountryComboBox.SelectedIndex = i;
                     this.currentUserCountryComboBoxIndex = i;
@@ -80,16 +86,13 @@ namespace Toolkit_NET_Client.Windows
         public void LoadCountriesIntoComboBox()
         {
             List<Country> countries;
-            using (var db = new ToolkitContext())
-            {
+            using (var db = new ToolkitContext()) {
                 countries = db.Countries.ToList();
             }
 
-            Application.Current.Dispatcher.BeginInvoke(() =>
-            {
+            Application.Current.Dispatcher.BeginInvoke(() => {
                 Country country;
-                for (int i = 0; i < countries.Count; i++)
-                {
+                for (int i = 0; i < countries.Count; i++) {
                     country = countries[i];
                     string countryNameFormatted = string.Format("{0} ({1})", country.CountryName, country.StateName);
                     var comboItem = new ComboBoxItem();
@@ -97,8 +100,7 @@ namespace Toolkit_NET_Client.Windows
                     comboItem.Content = countryNameFormatted;
                     this.CountryComboBox.Items.Add(comboItem);
 
-                    if (this.user.CountryId == country.TwoLetterIsoCode)
-                    {
+                    if (this.user.CountryId == country.TwoLetterIsoCode) {
                         this.CountryTextBlock.Text = countryNameFormatted;
                         this.CountryComboBox.SelectedIndex = i;
                         this.currentUserCountryComboBoxIndex = i;
@@ -111,17 +113,14 @@ namespace Toolkit_NET_Client.Windows
         {
             Visibility shouldBeVisible = Visibility.Visible;
             Visibility shouldBeCollapsed = Visibility.Collapsed;
-            if (finishAction)
-            {
+            if (finishAction) {
                 shouldBeVisible = Visibility.Collapsed;
                 shouldBeCollapsed = Visibility.Visible;
             }
 
-            switch (action)
-            {
+            switch (action) {
                 case ActionType.CHANGE_DETAILS:
-                    if (finishAction)
-                    {
+                    if (finishAction) {
                         ToolkitApp.ClearStatus(this.ConfirmStatusTextBlock);
                         this.UsernameTextBox.Text = user.Username;
                         this.EmailTextBox.Text = user.Email;
@@ -176,17 +175,16 @@ namespace Toolkit_NET_Client.Windows
 
         private void ChangeDetailsFinish(bool cancelChange)
         {
-            string password = this.CurrentPasswordBox.Password;
-            string email = this.EmailTextBox.Text;
-            string username = this.UsernameTextBox.Text;
-            string phone = this.PhoneTextBox.Text;
-            ComboBoxItem selectedCountry = (ComboBoxItem)this.CountryComboBox.SelectedItem;
+            string password = CurrentPasswordBox.Password;
+            string email    = EmailTextBox.Text;
+            string username = UsernameTextBox.Text;
+            string phone    = PhoneTextBox.Text;
+            ComboBoxItem selectedCountry = (ComboBoxItem) CountryComboBox.SelectedItem;
             string countryId = selectedCountry.Name;
 
             bool shouldCancelChange = cancelChange;
             bool phoneNotChanged = true;
-            if (!shouldCancelChange)
-            {
+            if (!shouldCancelChange) {
                 phoneNotChanged = (this.user.Phone == phone || (this.user.Phone == null && string.IsNullOrEmpty(phone)));
                 bool noChangesMade = true;
                 noChangesMade &= (this.user.Email == email);
@@ -196,71 +194,60 @@ namespace Toolkit_NET_Client.Windows
                 noChangesMade &= (string.IsNullOrEmpty(password));
                 shouldCancelChange = noChangesMade;
             }
+
             ToolkitContext db = null;
             if (shouldCancelChange)
                 goto ChangeDetailsEnd;
 
             bool passwordMatches = (this.user.Password == ToolkitApp.GetHashSHA256(password));
-            if (!passwordMatches)
-            {
+            if (!passwordMatches) {
                 this.CurrentPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                 ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, "Неверный пароль.");
                 return;
-            } 
-            else
+            } else
                 this.CurrentPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
 
             var emailResult = ToolkitApp.IsValidEmail(email);
-            if (emailResult != RegisterUserResultType.SUCCESS)
-            {
+            if (emailResult != RegisterUserResultType.SUCCESS) {
                 this.EmailTextBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                 string emailError = ToolkitApp.GetErrorMessageFromRegisterResult(emailResult);
                 ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, emailError);
                 return;
-            }
-            else
+            } else
                 this.EmailTextBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
 
             var usernameResult = ToolkitApp.IsValidUsername(username);
-            if (usernameResult != RegisterUserResultType.SUCCESS)
-            {
+            if (usernameResult != RegisterUserResultType.SUCCESS) {
                 this.UsernameTextBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                 string usernameError = ToolkitApp.GetErrorMessageFromRegisterResult(usernameResult);
                 ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, usernameError);
                 return;
-            }
-            else
+            } else
                 this.UsernameTextBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
 
-            if (!phoneNotChanged)
-            {
-                var phoneResult = ToolkitApp.IsValidPhone(username);
-                if (phoneResult != RegisterUserResultType.SUCCESS)
-                {
+            if (!phoneNotChanged) {
+                var phoneResult = ToolkitApp.IsValidPhone(phone);
+                if (phoneResult != RegisterUserResultType.SUCCESS) {
                     this.PhoneTextBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                     string phoneError = ToolkitApp.GetErrorMessageFromRegisterResult(phoneResult);
                     ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, phoneError);
                     return;
-                }
-                else
+                } else
                     this.PhoneTextBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
             }
 
             var countryResult = ToolkitApp.IsValidCountry(countryId);
-            if (countryResult != RegisterUserResultType.SUCCESS)
-            {
+            if (countryResult != RegisterUserResultType.SUCCESS) {
                 this.CountryComboBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                 string countryError = ToolkitApp.GetErrorMessageFromRegisterResult(countryResult);
                 ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, countryError);
                 return;
-            }
-            else
+            } else
                 this.CountryComboBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
 
             db = new ToolkitContext();
-            User? user = ToolkitApp.FindUser(this.user.Id, db);
-            if (user == null)
-            {
+            User? user = ToolkitApp.FindUserById(this.user.Id, db);
+            if (user == null) {
                 ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, "Не удалось найти пользователя.");
                 return;
             }
@@ -270,14 +257,15 @@ namespace Toolkit_NET_Client.Windows
             user.Phone = phone;
             user.CountryId = countryId;
             this.user = user;
+            this.ownerWindow.user = user;
 
             this.UsernameTextBlock.Text = username;
+            this.ownerWindow.NavigationUsernameTextBlock.Text = username;
 
             ToolkitApp.SetStatusSuccess(this.ConfirmStatusTextBlock, "Данные успешно изменены.");
 
         ChangeDetailsEnd:
-            if (shouldCancelChange)
-            {
+            if (shouldCancelChange) {
                 ToolkitApp.ClearStatus(this.ConfirmStatusTextBlock);
                 this.CurrentPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
             }
@@ -286,8 +274,7 @@ namespace Toolkit_NET_Client.Windows
 
             UpdateElementsBasedOnAction(ActionType.CHANGE_DETAILS, finishAction: true);
 
-            if (!shouldCancelChange)
-            {
+            if (!shouldCancelChange) {
                 db.SaveChanges();
                 db.DisposeAsync();
             }
@@ -304,20 +291,19 @@ namespace Toolkit_NET_Client.Windows
             string newPassword = this.NewPasswordBox.Password;
 
             bool shouldCancelChange = cancelChange;
-            if (!shouldCancelChange)
-            {
+            if (!shouldCancelChange) {
                 bool noChangesMade = true;
                 noChangesMade &= string.IsNullOrEmpty(oldPassword);
                 noChangesMade &= string.IsNullOrEmpty(newPassword);
                 shouldCancelChange = noChangesMade;
             }
+
             ToolkitContext db = null;
             if (shouldCancelChange)
                 goto ChangePasswordEnd;
 
             bool oldPasswordMatches = (this.user.Password == ToolkitApp.GetHashSHA256(oldPassword));
-            if (!oldPasswordMatches)
-            {
+            if (!oldPasswordMatches) {
                 this.CurrentPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                 this.NewPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
                 ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, "Неверный пароль.");
@@ -328,16 +314,14 @@ namespace Toolkit_NET_Client.Windows
             bool validPassword = passwordResult == RegisterUserResultType.SUCCESS;
             string passwordError = ToolkitApp.GetErrorMessageFromRegisterResult(passwordResult);
             ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, passwordError);
-            if (!validPassword)
-            {
+            if (!validPassword) {
                 this.CurrentPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
                 this.NewPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                 return;
             }
 
             bool newPasswordMatchesOld = (oldPassword == newPassword);
-            if (newPasswordMatchesOld)
-            {
+            if (newPasswordMatchesOld) {
                 this.CurrentPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
                 this.NewPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                 ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, "Пароль совпадает с существующим.");
@@ -348,9 +332,8 @@ namespace Toolkit_NET_Client.Windows
             this.NewPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
 
             db = new ToolkitContext();
-            User? user = ToolkitApp.FindUser(this.user.Id, db);
-            if (user == null)
-            {
+            User? user = ToolkitApp.FindUserById(this.user.Id, db);
+            if (user == null) {
                 ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, "Не удалось найти пользователя.");
                 return;
             }
@@ -361,8 +344,7 @@ namespace Toolkit_NET_Client.Windows
             ToolkitApp.SetStatusError(this.ConfirmStatusTextBlock, "Пароль успешно изменен.");
 
         ChangePasswordEnd:
-            if (shouldCancelChange)
-            {
+            if (shouldCancelChange) {
                 ToolkitApp.ClearStatus(this.ConfirmStatusTextBlock);
                 this.CurrentPasswordBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
             }
@@ -372,8 +354,7 @@ namespace Toolkit_NET_Client.Windows
 
             UpdateElementsBasedOnAction(ActionType.CHANGE_PASSWORD, finishAction: true);
 
-            if (!shouldCancelChange)
-            {
+            if (!shouldCancelChange) {
                 db.SaveChanges();
                 db.DisposeAsync();
             }
@@ -401,29 +382,23 @@ namespace Toolkit_NET_Client.Windows
 
             double funds;
             bool parsed = double.TryParse(fundsString, out funds);
-            if (!parsed)
-            {
+            if (!parsed) {
                 this.AddFundsTextBox.BorderBrush = ToolkitApp.SolidColorBrush_Error;
                 ToolkitApp.SetStatusError(this.AddFundsStatusTextBlock, "Данная сумма некорректна. Пожалуйста, введите корректую сумму.");
                 return;
-            }
-            else
+            } else
                 this.AddFundsTextBox.BorderBrush = ToolkitApp.SolidColorBrush_DefaultBorderBrush;
 
-            using (var db = new ToolkitContext())
-            {
+            using (var db = new ToolkitContext()) {
                 User user = null;
-                foreach (var dbUser in db.Users)
-                {
-                    if (dbUser.Id == this.user.Id)
-                    {
+                foreach (var dbUser in db.Users) {
+                    if (dbUser.Id == this.user.Id) {
                         user = dbUser;
                         break;
                     }
                 }
 
-                if (user == null)
-                {
+                if (user == null) {
                     ToolkitApp.SetStatusError(this.AddFundsStatusTextBlock, "Не удалось найти пользователя.");
                     return;
                 }
@@ -439,28 +414,24 @@ namespace Toolkit_NET_Client.Windows
             }
         }
 
-        private void NavigationStoreTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var storeWindow = new StoreWindow(this.user);
-            storeWindow.Show();
-            this.Close();
-        }
-
-        private void NavigationLibraryTextBlock_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            var libraryWindow = new LibraryWindow(this.user);
-            libraryWindow.Show();
-            this.Close();
-        }
-
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
-            var result = MessageBox.Show(this, "Вы действительно хотите выйти из аккаунта?", "Toolkit - Выход из аккаунта", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (result == MessageBoxResult.Yes)
-            {
+            var result = MessageBox.Show("Вы действительно хотите выйти из аккаунта?", "Toolkit - Выход из аккаунта", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (result == MessageBoxResult.Yes) {
                 var authWindow = new LoginWindow();
                 authWindow.Show();
-                this.Close();
+                this.ownerWindow.Close();
+            }
+        }
+
+        private void PartnershipButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (partnerWindow == null) {
+                partnerWindow = new PartnerWindow(this, user);
+                partnerWindow.Owner = this.ownerWindow;
+                partnerWindow.Show();
+            } else {
+                partnerWindow.Focus();
             }
         }
     }

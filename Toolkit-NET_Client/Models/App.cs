@@ -52,4 +52,8 @@ public partial class App
     public virtual ICollection<App> RequiredApps { get; } = new List<App>();
 
     public virtual ICollection<Tag> Tags { get; } = new List<Tag>();
+
+    public string DeveloperCompanyName {
+        get { return DeveloperCompany.OperatingName; }
+    }
 }
