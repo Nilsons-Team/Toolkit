@@ -1,3 +1,9 @@
 .vs/
-Toolkit-NET_Client/bin/
-Toolkit-NET_Client/obj/
+Toolkit-client/bin/
+Toolkit-client/obj/
+Toolkit-client-tests/bin/
+Toolkit-client-tests/obj/
+Toolkit-server/bin/
+Toolkit-server/obj/
+Toolkit-shared/bin/
+Toolkit-shared/obj/

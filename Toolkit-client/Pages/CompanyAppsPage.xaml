@@ -1,0 +1,207 @@
+﻿<local:ToolkitPage x:Class="Toolkit_Client.Pages.CompanyAppsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Toolkit_Client.Pages"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="CompanyAppsPage" Background="{DynamicResource WindowBackgroundColor}">
+    <Grid>
+        <Grid Background="#fafafa">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="{Binding ElementName=NameSearchStackPanel, Path=Height}" />
+                <RowDefinition />
+                <RowDefinition Height="{Binding ElementName=SearchResultsFooterStackPanel, Path=Height}"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="0,5,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*" MinWidth="200" />
+                    <ColumnDefinition Width="1*" MinWidth="200" />
+                    <ColumnDefinition Width="2*" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Название -->
+                <StackPanel Grid.Column="0" Name="NameSearchStackPanel" Background="#F5F5F5" Margin="5">
+                    <TextBlock Text="Поиск по названию" Background="#F0F0F0" TextAlignment="Center" Style="{StaticResource BlueTextBlock}" />
+                    <TextBox Name="NameSearchTextBox" Margin="5" Style="{StaticResource BlueTextBox}" TextChanged="NameSearchTextBox_TextChanged" />
+                </StackPanel>
+
+                <!-- Сортировка -->
+                <StackPanel Grid.Column="1" Background="#F5F5F5" Margin="5">
+                    <TextBlock Text="Сортировка" Background="#F0F0F0" TextAlignment="Center" Style="{StaticResource BlueTextBlock}" />
+                    <ComboBox  Name="SortComboBox" Grid.Column="1" Margin="5" Style="{StaticResource BlueComboBox}" SelectedIndex="0" SelectionChanged="SortComboBox_SelectionChanged" />
+                </StackPanel>
+
+                <!-- Добавить приложение -->
+                <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left">
+                    <Button Name="AddAppButton" Content="Добавить приложение" Style="{StaticResource BlueButton}" Click="AddAppButton_Click" />
+                </StackPanel>
+            </Grid>
+
+            <!-- Список игр -->
+            <StackPanel Grid.Row="1" Name="AppListStackPanel" Background="#f5f5f5" Margin="5,0,0,0">
+
+                <ListView Grid.Row="1" Name="AppsListView">
+                    <ListView.View>
+                        <GridView>
+
+                            <!-- Редактировать -->
+                            <GridViewColumn>
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Content="Ред." HorizontalAlignment="Center" Style="{StaticResource BlueButton}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            
+                            <!-- Открыть страницу -->
+                            <GridViewColumn>
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <local:AppButton AppId="{Binding Id}" Style="{StaticResource BlueButton}" Click="AppButton_Click">
+                                            <Image Source="../Resources/cart.png" Width="16" Height="16" />
+                                        </local:AppButton>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Название -->
+                            <GridViewColumn>
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Название" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding Name}" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Тип -->
+                            <GridViewColumn>
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Тип" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppType.Name}" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Статус -->
+                            <GridViewColumn>
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Статус" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding AppReleaseState.Name}" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Дата загрузки -->
+                            <GridViewColumn>c
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Дата загрузки" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding UploadDatetime}" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Дата выхода -->
+                            <GridViewColumn>
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Дата выхода" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="{Binding ReleaseDatetime}" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Скидка -->
+                            <GridViewColumn>
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Скидка" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding DiscountPercent}" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Старт скидки -->
+                            <GridViewColumn>
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Старт скидки" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding DiscountStartDatetime}" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                            <!-- Конец скидки -->
+                            <GridViewColumn>
+                                <GridViewColumn.HeaderTemplate>
+                                    <DataTemplate>
+                                        <TextBlock Text="Конец скидки" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.HeaderTemplate>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <TextBlock MinWidth="100" Text="{Binding DiscountExpireDatetime}" Style="{StaticResource BlueTextBlock}" />
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+
+            </StackPanel>
+
+            <!-- Количество результатов -->
+            <StackPanel Grid.Row="2" Name="SearchResultsFooterStackPanel" Margin="5,0,0,0" Orientation="Horizontal">
+                <TextBlock Text="Результатов: " Style="{StaticResource BlueTextBlock}" />
+                <TextBlock Name="SearchResultsTextBlock" Text="3" Style="{StaticResource BlueTextBlock}" />
+            </StackPanel>
+
+        </Grid>
+        
+    </Grid>
+</local:ToolkitPage>

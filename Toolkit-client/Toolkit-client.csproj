@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <RootNamespace>Toolkit_Client</RootNamespace>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\cart.png" />
+    <None Remove="Toolkit.db" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Resources\cart.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Include="App.xaml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\toolkit_png.png" />
+    <Content Include="Toolkit.db">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Toolkit-shared\Toolkit-shared.csproj" />
+  </ItemGroup>
+
+</Project>
